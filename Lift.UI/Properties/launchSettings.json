@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Lift.UI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Lift.UI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
