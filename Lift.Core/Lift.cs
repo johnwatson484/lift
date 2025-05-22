@@ -32,6 +32,7 @@
         {
             if (floor != CurrentFloor)
             {
+                CloseDoor();
                 MoveToFloor(floor);
             }
 
