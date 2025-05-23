@@ -57,10 +57,10 @@ namespace Lift.UI
             var button = sender as Button;
 
             if (button != null)
-            {            
-                var targetFloor = int.Parse(button.Content.ToString() ?? lift.CurrentFloor.ToString());
+            {
+                int targetFloor = GetTargetFloor(button);
 
-                if (lift.CurrentFloor != targetFloor || (lift.CurrentFloor == targetFloor && lift.Door == Door.Closed))
+                if (LiftInaccessibleFromFloor(targetFloor))
                 {
                     button.Background = new SolidColorBrush(Colors.CadetBlue);
                     lift.Call(targetFloor);
@@ -74,9 +74,9 @@ namespace Lift.UI
 
             if (button != null)
             {
-                var targetFloor = int.Parse(button.Content.ToString() ?? lift.CurrentFloor.ToString());
+                var targetFloor = GetTargetFloor(button);
 
-                if (lift.CurrentFloor != targetFloor || (lift.CurrentFloor == targetFloor && lift.Door == Door.Closed))
+                if (LiftInaccessibleFromFloor(targetFloor))
                 {
                     button.Background = new SolidColorBrush(Colors.CadetBlue);
                     await lift.SelectFloor(targetFloor);
@@ -99,9 +99,19 @@ namespace Lift.UI
             lift.SoundAlarm();
         }
 
+        private int GetTargetFloor(Button button)
+        {
+            return int.Parse(button.Content.ToString() ?? lift.CurrentFloor.ToString());
+        }
+
+        private bool LiftInaccessibleFromFloor(int targetFloor)
+        {
+            return lift.CurrentFloor != targetFloor || (lift.CurrentFloor == targetFloor && lift.Door == Door.Closed);
+        }
+
         private static string GetLiftStatus(Status status)
         {
-            switch(status)
+            switch (status)
             {
                 case Status.MovingUp:
                     return "Moving Up";  
