@@ -11,32 +11,60 @@
 
     <Window.SystemBackdrop>
         <MicaBackdrop />
-    </Window.SystemBackdrop>    
+    </Window.SystemBackdrop>
 
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10" Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="FloorText" Text="0" Width="100" Height="50" Margin="5" Grid.Row="0" Grid.Column="1" TextAlignment="Center" FontSize="18"/>
-        <Button Content="1" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="0"/>
-        <Button Content="2" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="1"/>
-        <Button Content="3" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="2"/>
-        <Button Content="4" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="0"/>
-        <Button Content="5" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="1"/>
-        <Button Content="6" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="2"/>
-        <Button Content="&lt;&gt;" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="0"/>
-        <Button Content="&gt;&lt;" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="1"/>
-        <Button Content="A" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="2"/>
-    </Grid>
+        <Grid Grid.RowSpan="4" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
+            <TextBlock Text="Call" Grid.Row="0" Grid.Column="0" Margin="5" TextAlignment="Center"/>
+            <Button Content="1" Width="50" Height="50" Margin="2.5" Grid.Row="1" Grid.Column="0"/>
+            <Button Content="2" Width="50" Height="50" Margin="2.5" Grid.Row="2" Grid.Column="0"/>
+            <Button Content="3" Width="50" Height="50" Margin="2.5" Grid.Row="3" Grid.Column="0"/>
+            <Button Content="4" Width="50" Height="50" Margin="2.5" Grid.Row="4" Grid.Column="0"/>
+            <Button Content="5" Width="50" Height="50" Margin="2.5" Grid.Row="5" Grid.Column="0"/>
+            <Button Content="6" Width="50" Height="50" Margin="2.5" Grid.Row="6" Grid.Column="0"/>
+        </Grid>
+
+        <TextBlock x:Name="DoorStatus" Text="Closed" Width="100" Height="50" Margin="5" Grid.Row="0" Grid.Column="1" TextAlignment="Center" FontSize="12"/>
+        <TextBlock x:Name="FloorStatus" Text="1" Width="100" Height="50" Margin="5" Grid.Row="0" Grid.Column="2" TextAlignment="Center" FontSize="18"/>
+        <TextBlock x:Name="LiftStatus" Text="Stopped" Width="100" Height="50" Margin="5" Grid.Row="0" Grid.Column="3" TextAlignment="Center" FontSize="12"/>
+
+        <Button Content="1" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="1"/>
+        <Button Content="2" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="2"/>
+        <Button Content="3" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="3"/>
+
+        <Button Content="4" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="1"/>
+        <Button Content="5" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="2"/>
+        <Button Content="6" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="3"/>
+
+        <Button Content="&lt;&gt;" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="1"/>
+        <Button Content="&gt;&lt;" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="2"/>
+        <Button Content="A" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="3"/>
+    </Grid>
 </Window>
