@@ -2,8 +2,8 @@
 {
     public class Lift
     {
-        private int minFloor;
-        private int maxFloor;
+        readonly int minFloor;
+        readonly int maxFloor;
         private Door door;
         private Status status;
 
@@ -69,12 +69,12 @@
         {
             while (CurrentFloor != targetFloor)
             {
-                if(CurrentFloor < targetFloor)
+                if(CurrentFloor < targetFloor && CurrentFloor < maxFloor)
                 {
                     await MoveUp();
                 }
 
-                if(CurrentFloor > targetFloor)
+                if(CurrentFloor > targetFloor && CurrentFloor > minFloor)
                 {
                     await MoveDown();
                 }
