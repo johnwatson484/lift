@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lift.UI
 {
@@ -54,34 +55,19 @@ namespace Lift.UI
 
         private void ButtonCall_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-
-            if (button != null)
+            HandleFloorButtonClick(sender, floor =>
             {
-                int targetFloor = GetTargetFloor(button);
-
-                if (LiftInaccessibleFromFloor(targetFloor))
-                {
-                    HighlightButtonBackground(targetFloor);
-                    lift.Call(targetFloor);
-                }
-            }
+                lift.Call(floor);
+                return Task.CompletedTask;
+            });
         }
 
-        private async void ButtonSelectFloor_Click(object sender, RoutedEventArgs e)
+        private void ButtonSelectFloor_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-
-            if (button != null)
+            HandleFloorButtonClick(sender, async floor =>
             {
-                var targetFloor = GetTargetFloor(button);
-
-                if (LiftInaccessibleFromFloor(targetFloor))
-                {
-                    HighlightButtonBackground(targetFloor);
-                    await lift.SelectFloor(targetFloor);
-                }
-            }
+                await lift.SelectFloor(floor);
+            });
         }
 
         private void ButtonOpen_Click(object sender, RoutedEventArgs e)
@@ -99,12 +85,27 @@ namespace Lift.UI
             lift.SoundAlarm();
         }
 
+        private void HandleFloorButtonClick(object sender, Func<int, Task> action)
+        {
+            if (sender is Button button)
+            {
+                int targetFloor = GetTargetFloor(button);
+
+                if (ShouldCallLift(targetFloor))
+                {
+                    HighlightButtonBackground(targetFloor);
+                    _ = action(targetFloor); // Fire and forget or await depending on context
+                }
+            }
+        }
+
+
         private int GetTargetFloor(Button button)
         {
             return int.Parse(button.Content.ToString() ?? lift.CurrentFloor.ToString());
         }
 
-        private bool LiftInaccessibleFromFloor(int targetFloor)
+        private bool ShouldCallLift(int targetFloor)
         {
             return lift.CurrentFloor != targetFloor || (lift.CurrentFloor == targetFloor && lift.Door == Door.Closed);
         }
