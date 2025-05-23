@@ -62,7 +62,7 @@ namespace Lift.UI
 
                 if (LiftInaccessibleFromFloor(targetFloor))
                 {
-                    button.Background = new SolidColorBrush(Colors.CadetBlue);
+                    HighlightButtonBackground(targetFloor);
                     lift.Call(targetFloor);
                 }
             }
@@ -78,7 +78,7 @@ namespace Lift.UI
 
                 if (LiftInaccessibleFromFloor(targetFloor))
                 {
-                    button.Background = new SolidColorBrush(Colors.CadetBlue);
+                    HighlightButtonBackground(targetFloor);
                     await lift.SelectFloor(targetFloor);
                 }
             }
@@ -119,6 +119,20 @@ namespace Lift.UI
                     return "Moving Down";
                 default:
                     return "Stopped";
+            }
+        }
+
+        private void HighlightButtonBackground(int floor)
+        {
+            foreach (var child in GetAllButtons(ButtonGrid))
+            {
+                if (child is Button button)
+                {
+                    if (int.TryParse(button.Content.ToString(), out int buttonFloor) && buttonFloor == floor)
+                    {
+                        button.Background = new SolidColorBrush(Colors.CadetBlue);
+                    }
+                }
             }
         }
 
