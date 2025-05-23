@@ -1,3 +1,4 @@
+using Lift.Core;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -26,7 +27,7 @@ namespace Lift.UI
 
             lift.StatusChanged += (status) =>
             {
-                this.LiftStatus.Text = status.ToString();
+                this.LiftStatus.Text = GetLiftStatus(status);
             };
         }
 
@@ -57,6 +58,19 @@ namespace Lift.UI
         private void ButtonAlarm_Click(object sender, RoutedEventArgs e)
         {
             lift.SoundAlarm();
+        }
+
+        private string GetLiftStatus(Status status)
+        {
+            switch(status)
+            {
+                case Status.MovingUp:
+                    return "Moving Up";  
+                case Status.MovingDown:
+                    return "Moving Down";
+                default:
+                    return "Stopped";
+            }
         }
     }
 }
