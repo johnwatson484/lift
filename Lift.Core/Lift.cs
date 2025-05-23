@@ -1,11 +1,19 @@
-﻿namespace Lift.Core
+﻿using System.Threading.Tasks;
+
+namespace Lift.Core
 {
     public class Lift
     {
         readonly int minFloor;
         readonly int maxFloor;
+
         private Door door;
         private Status status;
+
+        private Queue<int> callQueue = new ();
+        readonly int traversalIntervalInSeconds = 1;
+        bool isTraversing = false;
+        CancellationTokenSource? traversalCts;
 
         public int CurrentFloor { get; private set; }
 
@@ -26,14 +34,62 @@
             door = Door.Closed;
         }
 
-        public async Task Call(int floor)
+
+        public void Activate()
         {
-            await SetTargetFloor(floor);
+            traversalCts = new CancellationTokenSource();
+            Task.Run(() => ActivateQueue(traversalCts.Token));
         }
 
-        public async Task SelectFloor(int floor)
+        public void Shutdown()
         {
-            await SetTargetFloor(floor);
+            traversalCts?.Cancel();
+        }
+
+        private async Task ActivateQueue(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                if (!isTraversing && callQueue.Count > 0)
+                {
+                    isTraversing = true;
+                    await TraverseToNextFloor();
+                    isTraversing = false;
+                }
+
+                await Task.Delay(traversalIntervalInSeconds * 1000, token);
+            }
+        }
+
+        private async Task TraverseToNextFloor()
+        {
+            var floor = callQueue.Dequeue();
+            if (floor != CurrentFloor)
+            {
+                await SetTargetFloor(floor);
+            }
+        }
+
+        public void Call(int floor)
+        {
+            AddFloorToCallStack(floor);
+        }
+
+        public void SelectFloor(int floor)
+        {
+            AddFloorToCallStack(floor);
+            Task.Delay(1000).Wait();
+        }
+
+        private void AddFloorToCallStack(int floor)
+        {
+            if (floor >= minFloor && floor <= maxFloor)
+            {
+                if (!callQueue.Contains(floor))
+                {
+                    callQueue.Enqueue(floor);
+                }
+            }
         }
 
         private async Task SetTargetFloor(int floor)
@@ -44,6 +100,7 @@
                 await MoveToFloor(floor);
             }
 
+            await Task.Delay(1000);
             OpenDoor();
         }
 

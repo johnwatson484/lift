@@ -1,4 +1,5 @@
 using Lift.Core;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -7,42 +8,54 @@ namespace Lift.UI
 {
     public sealed partial class MainWindow : Window
     {
+        readonly DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         readonly Core.Lift lift = new(1, 6, null);
 
         public MainWindow()
         {
             InitializeComponent();
 
-            this.FloorStatus.Text = lift.CurrentFloor.ToString();
+            FloorStatus.Text = lift.CurrentFloor.ToString();
 
             lift.FloorChanged += (floor) =>
             {
-                this.FloorStatus.Text = floor.ToString();
+                dispatcherQueue.TryEnqueue(() =>
+                {
+                    FloorStatus.Text = floor.ToString();
+                });
             };
 
             lift.DoorChanged += (door) =>
             {
-                this.DoorStatus.Text = door.ToString();
+                dispatcherQueue.TryEnqueue(() =>
+                {
+                    DoorStatus.Text = door.ToString();
+                });
             };
 
             lift.StatusChanged += (status) =>
             {
-                this.LiftStatus.Text = GetLiftStatus(status);
+                dispatcherQueue.TryEnqueue(() =>
+                {
+                    LiftStatus.Text = GetLiftStatus(status);
+                });
             };
+
+            lift.Activate();
         }
 
-        private async void ButtonCall_Click(object sender, RoutedEventArgs e)
+        private void ButtonCall_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var targetFloor = int.Parse(button?.Content.ToString() ?? lift.CurrentFloor.ToString());
-            await lift.Call(targetFloor);
+            lift.Call(targetFloor);
         }
 
-        private async void ButtonSelectFloor_Click(object sender, RoutedEventArgs e)
+        private void ButtonSelectFloor_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var targetFloor = int.Parse(button?.Content.ToString() ?? lift.CurrentFloor.ToString());
-            await lift.SelectFloor(targetFloor);
+            lift.SelectFloor(targetFloor);
         }
 
         private void ButtonOpen_Click(object sender, RoutedEventArgs e)
