@@ -75,10 +75,10 @@ namespace Lift.Core
             AddFloorToCallStack(floor);
         }
 
-        public void SelectFloor(int floor)
+        public async Task SelectFloor(int floor)
         {
             AddFloorToCallStack(floor);
-            Task.Delay(1000).Wait();
+            await Task.Delay(1000);
         }
 
         private void AddFloorToCallStack(int floor)

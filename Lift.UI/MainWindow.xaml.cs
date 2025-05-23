@@ -51,11 +51,11 @@ namespace Lift.UI
             lift.Call(targetFloor);
         }
 
-        private void ButtonSelectFloor_Click(object sender, RoutedEventArgs e)
+        private async void ButtonSelectFloor_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var targetFloor = int.Parse(button?.Content.ToString() ?? lift.CurrentFloor.ToString());
-            lift.SelectFloor(targetFloor);
+            await lift.SelectFloor(targetFloor);
         }
 
         private void ButtonOpen_Click(object sender, RoutedEventArgs e)
