@@ -1,31 +1,62 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Lift.UI
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
+        readonly Core.Lift lift = new(1, 6, null);
+
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            this.FloorStatus.Text = lift.CurrentFloor.ToString();
+
+            lift.FloorChanged += (floor) =>
+            {
+                this.FloorStatus.Text = floor.ToString();
+            };
+
+            lift.DoorChanged += (door) =>
+            {
+                this.DoorStatus.Text = door.ToString();
+            };
+
+            lift.StatusChanged += (status) =>
+            {
+                this.LiftStatus.Text = status.ToString();
+            };
+        }
+
+        private async void ButtonCall_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var targetFloor = int.Parse(button?.Content.ToString() ?? lift.CurrentFloor.ToString());
+            await lift.Call(targetFloor);
+        }
+
+        private async void ButtonSelectFloor_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var targetFloor = int.Parse(button?.Content.ToString() ?? lift.CurrentFloor.ToString());
+            await lift.SelectFloor(targetFloor);
+        }
+
+        private void ButtonOpen_Click(object sender, RoutedEventArgs e)
+        {
+            lift.OpenDoor();
+        }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            lift.CloseDoor();
+        }
+
+        private void ButtonAlarm_Click(object sender, RoutedEventArgs e)
+        {
+            lift.SoundAlarm();
         }
     }
 }

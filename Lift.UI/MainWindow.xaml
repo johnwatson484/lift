@@ -43,28 +43,28 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Call" Grid.Row="0" Grid.Column="0" Margin="5" TextAlignment="Center"/>
-            <Button Content="1" Width="50" Height="50" Margin="2.5" Grid.Row="1" Grid.Column="0"/>
-            <Button Content="2" Width="50" Height="50" Margin="2.5" Grid.Row="2" Grid.Column="0"/>
-            <Button Content="3" Width="50" Height="50" Margin="2.5" Grid.Row="3" Grid.Column="0"/>
-            <Button Content="4" Width="50" Height="50" Margin="2.5" Grid.Row="4" Grid.Column="0"/>
-            <Button Content="5" Width="50" Height="50" Margin="2.5" Grid.Row="5" Grid.Column="0"/>
-            <Button Content="6" Width="50" Height="50" Margin="2.5" Grid.Row="6" Grid.Column="0"/>
+            <Button Content="1" Width="50" Height="50" Margin="2.5" Grid.Row="1" Grid.Column="0" Click="ButtonCall_Click"/>
+            <Button Content="2" Width="50" Height="50" Margin="2.5" Grid.Row="2" Grid.Column="0" Click="ButtonCall_Click"/>
+            <Button Content="3" Width="50" Height="50" Margin="2.5" Grid.Row="3" Grid.Column="0" Click="ButtonCall_Click"/>
+            <Button Content="4" Width="50" Height="50" Margin="2.5" Grid.Row="4" Grid.Column="0" Click="ButtonCall_Click"/>
+            <Button Content="5" Width="50" Height="50" Margin="2.5" Grid.Row="5" Grid.Column="0" Click="ButtonCall_Click"/>
+            <Button Content="6" Width="50" Height="50" Margin="2.5" Grid.Row="6" Grid.Column="0" Click="ButtonCall_Click"/>
         </Grid>
 
         <TextBlock x:Name="DoorStatus" Text="Closed" Width="100" Height="50" Margin="5" Grid.Row="0" Grid.Column="1" TextAlignment="Center" FontSize="12"/>
         <TextBlock x:Name="FloorStatus" Text="1" Width="100" Height="50" Margin="5" Grid.Row="0" Grid.Column="2" TextAlignment="Center" FontSize="18"/>
         <TextBlock x:Name="LiftStatus" Text="Stopped" Width="100" Height="50" Margin="5" Grid.Row="0" Grid.Column="3" TextAlignment="Center" FontSize="12"/>
 
-        <Button Content="1" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="1"/>
-        <Button Content="2" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="2"/>
-        <Button Content="3" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="3"/>
+        <Button Content="1" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="1" Click="ButtonSelectFloor_Click"/>
+        <Button Content="2" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="2" Click="ButtonSelectFloor_Click"/>
+        <Button Content="3" Width="100" Height="100" Margin="5" Grid.Row="1" Grid.Column="3" Click="ButtonSelectFloor_Click"/>
 
-        <Button Content="4" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="1"/>
-        <Button Content="5" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="2"/>
-        <Button Content="6" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="3"/>
-
-        <Button Content="&lt;&gt;" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="1"/>
-        <Button Content="&gt;&lt;" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="2"/>
-        <Button Content="A" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="3"/>
+        <Button Content="4" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="1" Click="ButtonSelectFloor_Click"/>
+        <Button Content="5" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="2" Click="ButtonSelectFloor_Click"/>
+        <Button Content="6" Width="100" Height="100" Margin="5" Grid.Row="2" Grid.Column="3" Click="ButtonSelectFloor_Click"/>
+     
+        <Button Content="&lt;&gt;" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="1" Click="ButtonOpen_Click"/>
+        <Button Content="&gt;&lt;" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="2" Click="ButtonClose_Click"/>
+        <Button Content="A" Width="100" Height="100" Margin="5" Grid.Row="3" Grid.Column="3" Click="ButtonAlarm_Click"/>
     </Grid>
 </Window>
