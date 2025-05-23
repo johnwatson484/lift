@@ -7,7 +7,7 @@
         private Door door;
         private Status status;
 
-        public int CurrentFloor { get; set; }
+        public int CurrentFloor { get; private set; }
 
         public delegate void UpdateFloor(int floor);
         public event UpdateFloor FloorChanged;
