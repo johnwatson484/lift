@@ -10,13 +10,13 @@
         public int CurrentFloor { get; private set; }
 
         public delegate void UpdateFloor(int floor);
-        public event UpdateFloor FloorChanged;
+        public event UpdateFloor? FloorChanged;
 
         public delegate void UpdateDoor(Door door);
-        public event UpdateDoor DoorChanged;
+        public event UpdateDoor? DoorChanged;
 
         public delegate void UpdateStatus(Status status);
-        public event UpdateStatus StatusChanged;
+        public event UpdateStatus? StatusChanged;
 
         public Lift(int minFloor, int maxFloor, int? currentFloor)
         {
