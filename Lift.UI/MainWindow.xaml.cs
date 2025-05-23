@@ -1,8 +1,11 @@
 using Lift.Core;
+using Microsoft.UI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections.Generic;
 
 namespace Lift.UI
 {
@@ -30,6 +33,11 @@ namespace Lift.UI
                 dispatcherQueue.TryEnqueue(() =>
                 {
                     DoorStatus.Text = door.ToString();
+
+                    if (door == Door.Open)
+                    {
+                        ResetButtonBackground(lift.CurrentFloor);
+                    }
                 });
             };
 
@@ -47,15 +55,33 @@ namespace Lift.UI
         private void ButtonCall_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            var targetFloor = int.Parse(button?.Content.ToString() ?? lift.CurrentFloor.ToString());
-            lift.Call(targetFloor);
+
+            if (button != null)
+            {            
+                var targetFloor = int.Parse(button.Content.ToString() ?? lift.CurrentFloor.ToString());
+
+                if (lift.CurrentFloor != targetFloor || (lift.CurrentFloor == targetFloor && lift.Door == Door.Closed))
+                {
+                    button.Background = new SolidColorBrush(Colors.CadetBlue);
+                    lift.Call(targetFloor);
+                }
+            }
         }
 
         private async void ButtonSelectFloor_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            var targetFloor = int.Parse(button?.Content.ToString() ?? lift.CurrentFloor.ToString());
-            await lift.SelectFloor(targetFloor);
+
+            if (button != null)
+            {
+                var targetFloor = int.Parse(button.Content.ToString() ?? lift.CurrentFloor.ToString());
+
+                if (lift.CurrentFloor != targetFloor || (lift.CurrentFloor == targetFloor && lift.Door == Door.Closed))
+                {
+                    button.Background = new SolidColorBrush(Colors.CadetBlue);
+                    await lift.SelectFloor(targetFloor);
+                }
+            }
         }
 
         private void ButtonOpen_Click(object sender, RoutedEventArgs e)
@@ -73,7 +99,7 @@ namespace Lift.UI
             lift.SoundAlarm();
         }
 
-        private string GetLiftStatus(Status status)
+        private static string GetLiftStatus(Status status)
         {
             switch(status)
             {
@@ -83,6 +109,41 @@ namespace Lift.UI
                     return "Moving Down";
                 default:
                     return "Stopped";
+            }
+        }
+
+        private void ResetButtonBackground(int floor)
+        {
+            foreach (var child in GetAllButtons(ButtonGrid))
+            {
+                if (child is Button button)
+                {
+                    if (int.TryParse(button.Content.ToString(), out int buttonFloor) && buttonFloor == floor)
+                    {
+                        button.Background = new SolidColorBrush(ColorHelper.FromArgb(0xB3, 0xFF, 0xFF, 0xFF));
+                    }
+                }
+            }
+        }
+
+        private IEnumerable<Button> GetAllButtons(DependencyObject parent)
+        {
+            int count = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is Button button)
+                {
+                    yield return button;
+                }
+                else
+                {
+                    foreach (var nestedButton in GetAllButtons(child))
+                    {
+                        yield return nestedButton;
+                    }
+                }
             }
         }
     }

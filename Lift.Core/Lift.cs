@@ -7,15 +7,14 @@ namespace Lift.Core
         readonly int minFloor;
         readonly int maxFloor;
 
-        private Door door;
-        private Status status;
-
-        private Queue<int> callQueue = new ();
+        readonly Queue<int> callQueue = new ();
         readonly int traversalIntervalInSeconds = 1;
         bool isTraversing = false;
         CancellationTokenSource? traversalCts;
 
         public int CurrentFloor { get; private set; }
+        public Door Door { get; private set; }
+        public Status status { get; private set; }
 
         public delegate void UpdateFloor(int floor);
         public event UpdateFloor? FloorChanged;
@@ -31,7 +30,7 @@ namespace Lift.Core
             this.minFloor = minFloor;
             this.maxFloor = maxFloor;
             CurrentFloor = currentFloor ?? minFloor;
-            door = Door.Closed;
+            Door = Door.Closed;
         }
 
 
@@ -64,10 +63,7 @@ namespace Lift.Core
         private async Task TraverseToNextFloor()
         {
             var floor = callQueue.Dequeue();
-            if (floor != CurrentFloor)
-            {
-                await SetTargetFloor(floor);
-            }
+            await SetTargetFloor(floor);
         }
 
         public void Call(int floor)
@@ -106,19 +102,19 @@ namespace Lift.Core
 
         public void OpenDoor()
         {
-            if (door != Door.Open && status == Status.Stopped)
+            if (Door != Door.Open && status == Status.Stopped)
             {
-                door = Door.Open;
-                DoorChanged?.Invoke(door);
+                Door = Door.Open;
+                DoorChanged?.Invoke(Door);
             }
         }
 
         public void CloseDoor()
         {
-            if (door != Door.Closed && status == Status.Stopped)
+            if (Door != Door.Closed && status == Status.Stopped)
             {
-                door = Door.Closed;
-                DoorChanged?.Invoke(door);
+                Door = Door.Closed;
+                DoorChanged?.Invoke(Door);
             }
         }
 
