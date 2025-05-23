@@ -18,22 +18,23 @@
             CurrentFloor = currentFloor ?? minFloor;
             door = Door.Closed;
         }
-        public void Call(int floor)
+
+        public async Task Call(int floor)
         {
-            SetTargetFloor(floor);
+            await SetTargetFloor(floor);
         }
 
-        public void SelectFloor(int floor)
+        public async Task SelectFloor(int floor)
         {
-            SetTargetFloor(floor);
+            await SetTargetFloor(floor);
         }
 
-        private void SetTargetFloor(int floor)
+        private async Task SetTargetFloor(int floor)
         {
             if (floor != CurrentFloor)
             {
                 CloseDoor();
-                MoveToFloor(floor);
+                await MoveToFloor(floor);
             }
 
             OpenDoor();
@@ -55,30 +56,32 @@
             }
         }
 
-        private void MoveToFloor(int targetFloor)
+        private async Task MoveToFloor(int targetFloor)
         {
             while (CurrentFloor != targetFloor)
             {
                 if(CurrentFloor < targetFloor)
                 {
-                    MoveUp();
+                    await MoveUp();
                 }
 
                 if(CurrentFloor > targetFloor)
                 {
-                    MoveDown();
+                    await MoveDown();
                 }
             }
         }
 
-        private void MoveUp()
+        private async Task MoveUp()
         {
+            await Task.Delay(5000);
             CurrentFloor++;
             FloorChanged?.Invoke(CurrentFloor);
         }
 
-        private void MoveDown()
+        private async Task MoveDown()
         {
+            await Task.Delay(5000);
             CurrentFloor--;
             FloorChanged?.Invoke(CurrentFloor);
         }
