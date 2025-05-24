@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Drawing;
+using System.Threading.Tasks;
 
 namespace Lift.Core
 {
@@ -68,25 +69,24 @@ namespace Lift.Core
 
         public void Call(int floor)
         {
-            AddFloorToCallStack(floor);
+            AddFloorToCallQueue(floor);
         }
 
         public async Task SelectFloor(int floor)
         {
-            AddFloorToCallStack(floor);
+            AddFloorToCallQueue(floor);
             await Task.Delay(1000);
         }
 
-        private void AddFloorToCallStack(int floor)
+        private void AddFloorToCallQueue(int floor)
         {
-            if (floor >= minFloor && floor <= maxFloor)
+            if (IsValidFloor(floor) && !callQueue.Contains(floor))
             {
-                if (!callQueue.Contains(floor))
-                {
-                    callQueue.Enqueue(floor);
-                }
+                callQueue.Enqueue(floor);
             }
         }
+
+        
 
         private async Task SetTargetFloor(int floor)
         {
@@ -157,6 +157,11 @@ namespace Lift.Core
         public void SoundAlarm()
         {
             Console.WriteLine("Alarm sounded!");
+        }
+
+        private bool IsValidFloor(int floor)
+        {
+            return floor >= minFloor && floor <= maxFloor;
         }
     }
 
