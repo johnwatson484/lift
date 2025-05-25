@@ -70,9 +70,9 @@ namespace Lift.UI
             });
         }
 
-        private void ButtonOpen_Click(object sender, RoutedEventArgs e)
+        private async void ButtonOpen_Click(object sender, RoutedEventArgs e)
         {
-            lift.OpenDoor();
+            await lift.OpenDoor();
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)

@@ -97,7 +97,7 @@ namespace Lift.Core
             }
 
             await Task.Delay(1000);
-            OpenDoor();
+            await OpenDoor();
         }
 
         public async Task OpenDoor()
