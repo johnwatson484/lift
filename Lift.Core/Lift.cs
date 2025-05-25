@@ -100,12 +100,13 @@ namespace Lift.Core
             OpenDoor();
         }
 
-        public void OpenDoor()
+        public async Task OpenDoor()
         {
             if (Door != Door.Open && status == Status.Stopped)
             {
                 Door = Door.Open;
                 DoorChanged?.Invoke(Door);
+                await Task.Delay(3000);
             }
         }
 
